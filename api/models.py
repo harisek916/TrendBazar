@@ -13,7 +13,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
-class Products(models.Model):
+class Product(models.Model):
     title=models.CharField(max_length=200)
     category=models.ForeignKey(Category,on_delete=models.CASCADE,related_name="items")
     price=models.PositiveIntegerField()
@@ -33,14 +33,26 @@ class Basket(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.owner.username
+
 class BasketItem(models.Model):
     basket=models.ForeignKey(Basket,on_delete=models.CASCADE,related_name="cart_item")
-    product=models.ForeignKey(Products,on_delete=models.CASCADE)
+    product=models.ForeignKey(Product,on_delete=models.CASCADE)
     qty=models.PositiveIntegerField(default=1)
     is_active=models.BooleanField(default=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
-    total=models.IntegerField(null=True)
+    total=models.PositiveIntegerField(null=True,blank=True)
+
+    def __str__(self):
+        return self.product.title
+
+    def save(self,*args,**kwargs):
+        if not self.total:
+            self.total=self.product.price * self.qty
+        super().save(*args,**kwargs)
+
 
 
 def create_basket(sender,instance,created,**kwargs):
