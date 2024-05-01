@@ -4,9 +4,11 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import serializers
+from rest_framework import authentication,permissions
+from rest_framework.decorators import action
 
-from api.serializers import UserSerializer,ProductSerializer
-from api.models import Product
+from api.serializers import UserSerializer,ProductSerializer,BasketItemSerializer,BasketSerializer
+from api.models import Product,BasketItem
 
 
 # Create your views here.
@@ -23,6 +25,9 @@ class SignUpView(APIView):
 
 class ProductsView(viewsets.ModelViewSet):
 
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
+
     serializer_class=ProductSerializer
     queryset=Product.objects.all()
 
@@ -35,14 +40,45 @@ class ProductsView(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         raise serializers.ValidationError("permission denied")
     
-    
+
+    # url:http://127.0.0.1:8000/api/products/{id}/add_to_basket/
+    # method:post    
+
+    @action(methods=["post"],detail=True)
+    def add_to_basket(self,request,*args,**kwargs):
+        id=kwargs.get("pk")
+        product_object=Product.objects.get(id=id)
+        basket_object=request.user.cart
+        serializer=BasketItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(product=product_object,basket=basket_object)
+            return Response(data=serializer.data)
+        else:
+            return Response(data=serializer.errors)
+        
+
+class BasketView(viewsets.ViewSet):
+
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
+
+    # url:http://127.0.0.1:8000/api/baskets/
+    # method:get
+    def list(self,request,*args,**kwargs):
+        qs=request.user.cart
+        serializer=BasketSerializer(qs)
+        return Response(data=serializer.data)
 
 
 
+class BasketItemView(viewsets.ModelViewSet):
+    serializer_class=BasketItemSerializer
+    queryset=BasketItem.objects.all()
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
 
-
-
-
+    def create(self, request, *args, **kwargs):
+        raise serializers.ValidationError("permission denied")
 
 
 

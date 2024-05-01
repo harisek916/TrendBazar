@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from api.models import Product
+from api.models import Product,Basket,BasketItem
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -22,3 +22,40 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only_fields=["id","category"]
 
     category=serializers.StringRelatedField()
+
+class BasketItemSerializer(serializers.ModelSerializer):
+
+    product=ProductSerializer(read_only=True)
+    class Meta:
+        model=BasketItem
+        fields="__all__"
+        read_only_fields=[
+                    "id",
+                    "basket",
+                    "product",
+                    "is_active",
+                    "created_at",
+                    "updated_at"
+                ]
+    total=serializers.IntegerField(read_only=True)
+
+
+class BasketSerializer(serializers.ModelSerializer):
+
+    cart_items=BasketItemSerializer(read_only=True,many=True)
+    owner=serializers.StringRelatedField()
+    class Meta:
+        model=Basket
+        fields="__all__"
+        read_only_fields=[
+                    "id",
+                    "owner",
+                    "is_active",
+                    "created_at",
+                    "updated_at",
+                    "cart_items"
+                    ]
+    basket_item_total=serializers.IntegerField(read_only=True)
+        
+    
+
