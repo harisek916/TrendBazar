@@ -1,0 +1,309 @@
+{
+    "info": {
+        "_postman_id": "a6d18103-84b5-4534-8998-d0592bc8a7fe",
+        "name": "TrendBazar",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "signup",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/register/",
+                    "path": [
+                        "api",
+                        "register"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "8000"
+                },
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "username",
+                            "value": "customer2",
+                            "type": "default"
+                        },
+                        {
+                            "key": "email",
+                            "value": "customer2@gmail.com",
+                            "type": "default"
+                        },
+                        {
+                            "key": "password",
+                            "value": "Password@123",
+                            "type": "default"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "get token",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/token/",
+                    "path": [
+                        "api",
+                        "token"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "8000"
+                },
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "username",
+                            "value": "customer",
+                            "type": "default"
+                        },
+                        {
+                            "key": "password",
+                            "value": "Password@123",
+                            "type": "default"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "all products",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/products/",
+                    "path": [
+                        "api",
+                        "products"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "8000"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "7cfe9552cc3f84bf01eb1e5943df5be589414f7e",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "fetching a specific product",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/products/2/",
+                    "path": [
+                        "api",
+                        "products",
+                        "2"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Token 7cfe9552cc3f84bf01eb1e5943df5be589414f7e"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "add_to_basket",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/products/3/add_to_basket/",
+                    "path": [
+                        "api",
+                        "products",
+                        "3",
+                        "add_to_basket"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Token 7cfe9552cc3f84bf01eb1e5943df5be589414f7e"
+                    }
+                ],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "qty",
+                            "value": "3",
+                            "type": "default"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "list basket",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/baskets/",
+                    "path": [
+                        "api",
+                        "baskets"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Token 7cfe9552cc3f84bf01eb1e5943df5be589414f7e"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "list basket item detail",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/baskets/item/3/",
+                    "path": [
+                        "api",
+                        "baskets",
+                        "item",
+                        "3"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Token 7cfe9552cc3f84bf01eb1e5943df5be589414f7e"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "update basket item",
+            "request": {
+                "method": "PUT",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/baskets/item/3/",
+                    "path": [
+                        "api",
+                        "baskets",
+                        "item",
+                        "3"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Token 7cfe9552cc3f84bf01eb1e5943df5be589414f7e"
+                    }
+                ],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "qty",
+                            "value": "3",
+                            "type": "default"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "basket item delete",
+            "request": {
+                "method": "DELETE",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/baskets/item/3/",
+                    "path": [
+                        "api",
+                        "baskets",
+                        "item",
+                        "3"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Token 7cfe9552cc3f84bf01eb1e5943df5be589414f7e"
+                    }
+                ]
+            }
+        }
+    ]
+}
